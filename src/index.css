@@ -1,8 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ranchers&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin; /* "auto" or "thin"  */
+  scrollbar-color: #3F5EFB#f0eff4;
 }
 body {
   background-color: #f9f8f9;
+}
+button {
+  background-color: transparent;
+  border: 0;
+  box-shadow: 0;
+  cursor: pointer;
+}
+::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+::-webkit-scrollbar-track {
+  background: #f0eff4; /* color of the tracking area */
+}
+::-webkit-scrollbar-thumb {
+  background-color: #3f5efb; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid #f0eff4; /* creates padding around scroll thumb */
 }

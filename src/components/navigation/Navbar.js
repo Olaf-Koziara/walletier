@@ -1,74 +1,38 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import logo from "../../assets/walletLogo.png";
-import addIcon from "../../assets/icons/001-add.png";
+import logo from "../../assets/walletLogo200.png";
+
 import { bubble as Menu } from "react-burger-menu";
 import { Link } from "react-router-dom";
-import WalletListItem from "../WalletListItem";
-const StyledNav = styled.div`
-  background-color: #96bde5;
-  width: 100%;
-  display: flex;
-  padding: 5px 25px;
-`;
-const StyledAddWalletWrapper = styled.div`
-  padding: 10px;
-  text-align: center;
-  font-size: 25px;
-  font-family: Roboto;
-  box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
-  transition: 0.2s ease-in-out;
-  cursor: pointer;
-  &:hover {
-    background-color: #bbbfbc;
-  }
-`;
-const StyledAddIconWrapper = styled.div`
-  margin-top: 15px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-`;
-const StyledAddIcon = styled.img`
-  &:hover {
-    background-color: gold;
-    transform: scale(1.3);
-    border-radius: 100%;
-    transition: 0.2s ease-in-out;
-  }
-`;
+import WalletListItem from "./WalletListItem";
+import { connect } from "react-redux";
+import transactionIcon from "../../assets/icons/002-money-transfer.png";
+import Modal from "react-modal";
+import homeIcon from "../../assets/house.png";
+import "../../animations/glitchAnimation.css";
 
-const StyledLogoWrapper = styled.div`
-  width: 85px;
-  border: 4px solid blue;
-  border-radius: 100%;
-  padding: 4px;
-  box-shadow: 1px 1px 3px 1px #000000;
-  transform: scale(0.95);
+import {
+  StyledAddWalletButton,
+  StyledLogoWrapper,
+  StyledNav,
+  StyledNavEnd,
+  StyledNavLink,
+  StyledNavMid,
+  StyledNavStart,
+  StyledNavTextWrapper,
+  StyledTransparentButton,
+} from "../styled";
+import AddWalletForm from "../forms/AddWalletForm";
+import RegisterForm from "../forms/RegisterForm";
+import Button from "../atoms/Button";
+import LoginForm from "../forms/LoginForm";
+import { auth } from "../../firebaseConfig/firebase";
+import { CSSTransition } from "react-transition-group";
 
-  ${({ isOpen }) =>
-    isOpen &&
-    css`
-      box-shadow: 2px 2px 10px 5px #000000;
-      transform: scale(1);
-    `}
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-`;
-const StyledHint = styled.div`
-  opacity: 0;
-  position: absolute;
-  top: 10%;
-  right: -100px;
-  font-size: 0;
-  transition: 0.4s ease-in-out;
-
-  ${StyledAddIconWrapper}:hover & {
-    opacity: 1;
-    font-size: 20px;
-  }
-`;
 const menuStyles = {
+  bmMenuWrap: {
+    width: "400px",
+  },
   bmBurgerButton: {
     display: "none",
     width: "36px",
@@ -77,14 +41,14 @@ const menuStyles = {
     top: "36px",
   },
   bmMenu: {
-    background: "#373a47",
+    background: "linear-gradient(to top right, #fc2c77 0%, #6c4079 100%)",
     padding: "2.5em 1.5em 0",
     fontSize: "1.15em",
 
     width: "100%",
   },
   bmMorphShape: {
-    fill: "#373a47",
+    fill: "#fc2c77",
   },
   bmItemList: {
     padding: "0.5em",
@@ -93,35 +57,153 @@ const menuStyles = {
   bmItem: {
     display: "inline-block",
 
-    backgroundColor: "#F8F9F8",
+    backgroundColor: "",
     width: "100%",
   },
 };
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    background: " #fff",
 
-const Navbar = () => {
+    borderRadius: "10px",
+
+    boxShadow: "0px 8px 20px 0px rgba(0, 0, 0, 0.15)",
+  },
+  overlay: {
+    background: "linear-gradient(to top right, #fc2c77 0%, #6c4079 100%)",
+    zIndex: "100",
+  },
+};
+
+const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAddingWallet, setIsAddingWallet] = useState(false);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const handleCloseModal = () => {
+    setIsAddingWallet(false);
+    setIsMenuOpen(false);
+  };
+
   return (
     <>
       <StyledNav>
-        <StyledLogoWrapper isOpen={isMenuOpen} onClick={toggleMenu}>
-          <img style={{ width: "100%" }} src={logo} alt="logo" />
-        </StyledLogoWrapper>
-      </StyledNav>
-      <Menu
-        noOverlay
-        disableOverlayClick
-        isOpen={isMenuOpen}
-        styles={menuStyles}
-      >
-        <StyledAddWalletWrapper>Add wallet</StyledAddWalletWrapper>
+        <StyledNavStart>
+          <div>
+            <StyledTransparentButton
+              rounded
+              isOpen={isMenuOpen}
+              onClick={toggleMenu}
+            >
+              <img
+                style={{
+                  width: "90px",
+                }}
+                src={logo}
+                alt="logo"
+              />
+            </StyledTransparentButton>
+          </div>
 
-        <WalletListItem />
+          <StyledNavLink to="/">
+            <StyledTransparentButton rounded>
+              <img
+                style={{
+                  width: "90px",
+                }}
+                src={homeIcon}
+                alt="transations"
+              />
+            </StyledTransparentButton>
+          </StyledNavLink>
+          <StyledNavLink to="/transactions">
+            <StyledTransparentButton rounded>
+              <img height="72px" src={transactionIcon} alt="transations" />
+            </StyledTransparentButton>
+          </StyledNavLink>
+        </StyledNavStart>
+        {selectedWallet ? (
+          <StyledNavMid>
+            <h1 class="hero-heading">
+              <div class="glitch-wrapper">
+                <StyledNavTextWrapper noMX>Name:</StyledNavTextWrapper>
+                <div
+                  className="glitch noMX"
+                  data-text={selectedWallet.walletName}
+                >
+                  {selectedWallet.walletName}
+                </div>
+                <StyledNavTextWrapper>Balance:</StyledNavTextWrapper>
+                <div
+                  class="glitch"
+                  data-text={
+                    selectedWallet.balance + " " + selectedWallet.currency
+                  }
+                >
+                  {selectedWallet.balance + " " + selectedWallet.currency}
+                </div>
+              </div>
+            </h1>
+          </StyledNavMid>
+        ) : (
+          <StyledNavMid>
+            <div class="glitch" data-text="no wallet selected">
+              no wallet selected
+            </div>
+          </StyledNavMid>
+        )}
+        <StyledNavEnd>
+          <StyledTransparentButton
+            rounded
+            onClick={() => {
+              auth.signOut();
+            }}
+          >
+            Logout
+          </StyledTransparentButton>
+        </StyledNavEnd>
+      </StyledNav>
+      <Menu noOverlay isOpen={isMenuOpen} styles={menuStyles}>
+        {!isAddingWallet ? (
+          <StyledAddWalletButton onClick={() => setIsAddingWallet(true)}>
+            Add wallet
+          </StyledAddWalletButton>
+        ) : null}
+
+        <ul>
+          {wallets.map((wallet) => {
+            return <WalletListItem {...wallet} />;
+          })}
+        </ul>
       </Menu>
+      <CSSTransition
+        apper
+        in={isAddingWallet}
+        timeout={200}
+        classNames="walletModal"
+      >
+        <Modal isOpen={isAddingWallet} style={customStyles}>
+          <AddWalletForm closeModal={handleCloseModal} />
+        </Modal>
+      </CSSTransition>
     </>
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  return {
+    wallets: state.wallets,
+    selectedId: state.selectedWalletId,
+    selectedWallet: state.selectedWallet,
+  };
+};
+
+export default connect(mapStateToProps)(Navbar);
