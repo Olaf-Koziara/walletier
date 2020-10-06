@@ -19,11 +19,12 @@ const WalletListItem = ({
   id,
   selectWallet,
   selectedId,
+  index,
 }) => {
   return (
     <StyledWalletWrapper
       clicked={selectedId === id}
-      onClick={() => selectWallet(id)}
+      onClick={() => selectWallet(index)}
     >
       <img src={walletImage} width="80px" alt="wallet" />
       <StyledWalletTextWrapper>
@@ -40,7 +41,7 @@ const WalletListItem = ({
 };
 const mapDispatchToProps = (dispatch) => ({
   deleteWallet: (id) => dispatch(deleteWalletAction(id)),
-  selectWallet: (id) => dispatch(selectWalletAction(id)),
+  selectWallet: (index) => dispatch(selectWalletAction(index)),
 });
 const mapStateToProps = (state) => ({
   selectedId: state.selectedWalletId,

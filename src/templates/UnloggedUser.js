@@ -8,7 +8,7 @@ import {
   StyledUnloggedUserWrapper,
 } from "../components/styled";
 import logo from "../assets/unloggedLogo.png";
-const UnloggedUser = ({ children }) => {
+const UnloggedUser = ({ children, walletsCollection }) => {
   return (
     <StyledUnloggedUserWrapper>
       <StyledUnloggedLogoWrapper>
@@ -16,7 +16,9 @@ const UnloggedUser = ({ children }) => {
       </StyledUnloggedLogoWrapper>
       <Switch>
         {/* <Navbar /> */}
-        <Route exact path="/" component={LoginPage} />
+        <Route exact path="/">
+          <LoginPage />
+        </Route>
         <Route path="/register" component={RegisterPage} />
         {/* {children} */}
       </Switch>

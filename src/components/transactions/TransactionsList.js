@@ -19,12 +19,12 @@ const TransactionsList = ({
   currency,
   categories,
 }) => {
-  const [isAdding, setIsAdding] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isNew, setIsNew] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
+  console.log(transactionType);
   return (
     <>
       <FilterMenu
@@ -53,7 +53,11 @@ const TransactionsList = ({
               unmountOnExit={true}
             >
               <StyledTransactionsListItem>
-                <TransactionListItem {...transaction} currency={currency} />
+                <TransactionListItem
+                  {...transaction}
+                  transactionType={transactionType}
+                  currency={currency}
+                />
               </StyledTransactionsListItem>
             </CSSTransition>
           ) : null,

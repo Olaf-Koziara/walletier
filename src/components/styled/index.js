@@ -284,6 +284,7 @@ export const StyledTransparentButton = styled.button`
   cursor: pointer;
   font-size: 25px;
   margin: 15px;
+  height: 90px;
   ${({ mxAuto }) =>
     mxAuto &&
     css`
@@ -301,8 +302,7 @@ export const StyledTransparentButton = styled.button`
     css`
       border: 0;
     `}
-    
-  &:hover {
+    &:hover {
     box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
   }
   &:before {

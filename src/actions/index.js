@@ -39,11 +39,16 @@ export const addOutcomesCategory = (category) => ({
   type: "ADD_OUTCOMES_CATEGORY",
   payload: category,
 });
-export const deleteOutcome = (id) => ({
-  type: "DELETE_OUTCOME",
-  payload: id,
+export const deleteTransaction = (id, type) => ({
+  type: "DELETE_TRANSACTION",
+  payload: { id, type },
 });
+
 export const getWalletsFromFirebase = (wallets) => ({
   type: "GET_WALLETS_FROM_FIREBASE",
   payload: wallets,
+});
+export const getDocumentsIdFromFirebase = (doucmentsIdArray) => ({
+  type: "GET_DOCUMENTS_ID_FROM_FIREBASE",
+  payload: doucmentsIdArray,
 });

@@ -18,51 +18,66 @@ import FilterMenu from "../components/transactions/FilterMenu";
 const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
   const [minDate, setMinDate] = useState(null);
   const [maxDate, setMaxDate] = useState(null);
-
-  const summedUpByCategory = (transactions) => {
-    let summedArray = [];
-    transactions.map((transaction) => {
+  const transactionsFilteredByTime = (transactions) => {
+    const filteredTransactions = transactions.filter((transaction) => {
       const transactionDate = new Date(transaction.date);
       if (
         (!maxDate || transactionDate < maxDate) &&
         (!minDate || transactionDate > minDate)
       ) {
-        const category = summedArray.find(
-          (category) => category.name === transaction.category,
-        );
+        return transaction;
+      }
+    });
 
-        if (!category) {
-          summedArray = [
-            ...summedArray,
-            { name: transaction.category, amount: transaction.amount },
-          ];
-        } else {
-          category.amount += transaction.amount;
-        }
+    return filteredTransactions;
+  };
+  const summedUpByCategory = (transactions) => {
+    let summedArray = [];
+    transactions.map((transaction) => {
+      const category = summedArray.find(
+        (category) => category.name === transaction.category,
+      );
+
+      if (!category) {
+        summedArray = [
+          ...summedArray,
+          { name: transaction.category, amount: transaction.amount },
+        ];
+      } else {
+        category.amount += transaction.amount;
       }
     });
     return summedArray;
   };
+  const summedUp = (transactions) => {
+    console.log(transactions);
+    if (transactions) {
+      return transactions.reduce((a, b) => a + (b.amount || 0), 0);
+    }
+  };
+  let filteredOutcomes = [];
+  let filteredIncomes = [];
   if (selectedWallet) {
-    console.log(summedUpByCategory(selectedWallet.outcomes));
+    filteredOutcomes = transactionsFilteredByTime(selectedWallet.outcomes);
+    filteredIncomes = transactionsFilteredByTime(selectedWallet.incomes);
   }
   return (
     <>
-      <StyledFilterMenuWrapper>
-        <FilterMenu
-          minDate={minDate}
-          setMinDate={setMinDate}
-          maxDate={maxDate}
-          setMaxDate={setMaxDate}
-        />
-      </StyledFilterMenuWrapper>
-      <StyledHomeWrapper>
-        {selectedWallet ? (
-          <>
-            {selectedWallet.outcomesSummedUpByCategory.length > 0 ? (
+      {selectedWallet ? (
+        <>
+          <StyledFilterMenuWrapper>
+            <FilterMenu
+              minDate={minDate}
+              setMinDate={setMinDate}
+              maxDate={maxDate}
+              setMaxDate={setMaxDate}
+            />
+          </StyledFilterMenuWrapper>
+          <StyledHomeWrapper>
+            {selectedWallet.outcomes ? (
               <CustomPie
-                data={summedUpByCategory(selectedWallet.outcomes)}
-                total={selectedWallet.outcomesTotal}
+                data={summedUpByCategory(filteredOutcomes)}
+                total={summedUp(filteredOutcomes)}
               >
                 <StyledVictoryPieButtonWrapper>
                   <div
@@ -97,10 +112,17 @@ const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
                         datum.x === "incomes" ? "green" : "red",
                     },
                   }}
+                  labels={({ datum }) =>
+                    `${datum.y} ${selectedWallet.currency}`
+                  }
+                  animate={{
+                    duration: 2000,
+                    onLoad: { duration: 1000 },
+                  }}
                   domain={{ x: [0, 1] }}
                   data={[
-                    { x: "incomes", y: selectedWallet.incomesTotal, y0: 1 },
-                    { x: "outcomes", y: selectedWallet.outcomesTotal, y0: 1 },
+                    { x: "incomes", y: summedUp(filteredIncomes), y0: 1 },
+                    { x: "outcomes", y: summedUp(filteredOutcomes), y0: 1 },
                   ]}
                 />
               </VictoryChart>
@@ -108,8 +130,8 @@ const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
             {selectedWallet.incomes ? (
               <>
                 <CustomPie
-                  data={selectedWallet.incomesSummedUpByCategory}
-                  total={selectedWallet.incomesTotal}
+                  data={summedUpByCategory(filteredIncomes)}
+                  total={summedUp(filteredIncomes)}
                 >
                   <StyledVictoryPieButtonWrapper>
                     <div
@@ -136,9 +158,9 @@ const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
                 <CustomMonthCategory transactions={selectedWallet.incomes} />
               </>
             ) : null}
-          </>
-        ) : null}
-      </StyledHomeWrapper>
+          </StyledHomeWrapper>
+        </>
+      ) : null}
     </>
   );
 };

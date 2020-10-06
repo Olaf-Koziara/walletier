@@ -1,8 +1,21 @@
+import { de } from "date-fns/esm/locale";
+import { firestore } from "../firebaseConfig/firebase";
+
 const initialState = {
   wallets: [],
   selectedWallet: null,
   selectedWalletId: 1,
+  documentsWalletsId: [],
 };
+const deleteTransaction = (transactions, id) => {
+  const tempTransctions = transactions.filter(
+    (transaction) => transaction.id !== id,
+  );
+
+  return tempTransctions;
+};
+const uid = localStorage.getItem("currentUser");
+let walletsColletions = [];
 
 const walletierReducer = (state = initialState, action) => {
   const { payload, type } = action;
@@ -17,6 +30,7 @@ const walletierReducer = (state = initialState, action) => {
     case "ADD_WALLET": {
       const wallets = [...state.wallets, payload];
       console.log(wallets);
+      firestore.collection("wallet").add(payload);
 
       return {
         ...state,
@@ -31,12 +45,15 @@ const walletierReducer = (state = initialState, action) => {
         wallets: state.wallets.filter((wallet) => wallet.id !== payload),
       };
 
-    case "SELECT_WALLET":
+    case "SELECT_WALLET": {
+      console.log(payload);
+      console.log(state.documentsWalletsId);
       return {
         ...state,
-        selectedWalletId: payload,
-        selectedWallet: state.wallets.find((wallet) => wallet.id === payload),
+        selectedWalletId: state.documentsWalletsId[payload],
+        selectedWallet: state.wallets[payload],
       };
+    }
     case "ADD_INCOME": {
       const selectedWallet = state.selectedWallet;
       changeWalletBalnace(selectedWallet, payload.amount, "add");
@@ -58,6 +75,9 @@ const walletierReducer = (state = initialState, action) => {
         total += income.amount;
       });
       selectedWallet.incomesTotal = total;
+      firestore.collection("wallet").doc(state.selectedWalletId).update({
+        incomes: selectedWallet.incomes,
+      });
 
       return {
         ...state,
@@ -151,6 +171,35 @@ const walletierReducer = (state = initialState, action) => {
       return {
         ...state,
         wallets: [...payload],
+      };
+    }
+    case "GET_DOCUMENTS_ID_FROM_FIREBASE": {
+      return {
+        ...state,
+        documentsWalletsId: payload,
+      };
+    }
+    case "DELETE_TRANSACTION": {
+      const selectedWallet = state.selectedWallet;
+      if (payload.type === "income") {
+        selectedWallet.incomes = deleteTransaction(
+          selectedWallet.incomes,
+          payload.id,
+        );
+      } else {
+        selectedWallet.outcomes = deleteTransaction(
+          selectedWallet.outcomes,
+          payload.id,
+        );
+      }
+      return {
+        ...state,
+        wallets: state.wallets.map((wallet) => {
+          if (wallet.id === selectedWallet.id) {
+            return selectedWallet;
+          }
+          return wallet;
+        }),
       };
     }
 

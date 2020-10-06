@@ -30,6 +30,7 @@ const AddWalletForm = ({ closeModal, addWallet, selectWallet, wallets }) => {
       outcomesCategories: [],
       outcomesSummedUpByCategory: [],
       incomesSummedUpByCategory: [],
+      uid: localStorage.getItem("currentUser"),
     };
 
     addWallet(tempWallet);

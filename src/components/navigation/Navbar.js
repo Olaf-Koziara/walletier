@@ -92,6 +92,7 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
     setIsAddingWallet(false);
     setIsMenuOpen(false);
   };
+  console.log("selectedid", selectedId);
 
   return (
     <>
@@ -161,14 +162,16 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
           </StyledNavMid>
         )}
         <StyledNavEnd>
-          <StyledTransparentButton
-            rounded
-            onClick={() => {
-              auth.signOut();
-            }}
-          >
-            Logout
-          </StyledTransparentButton>
+          <StyledNavLink to="/">
+            <StyledTransparentButton
+              rounded
+              onClick={() => {
+                auth.signOut();
+              }}
+            >
+              Logout
+            </StyledTransparentButton>
+          </StyledNavLink>
         </StyledNavEnd>
       </StyledNav>
       <Menu noOverlay isOpen={isMenuOpen} styles={menuStyles}>
@@ -179,8 +182,8 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
         ) : null}
 
         <ul>
-          {wallets.map((wallet) => {
-            return <WalletListItem {...wallet} />;
+          {wallets.map((wallet, index) => {
+            return <WalletListItem {...wallet} index={index} />;
           })}
         </ul>
       </Menu>

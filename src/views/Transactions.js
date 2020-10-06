@@ -23,6 +23,7 @@ const Transactions = ({ wallets, selectedId, selectedWallet }) => {
           transactions={selectedWallet.incomes}
           currency={selectedWallet.currency}
           categories={selectedWallet.incomesCategories}
+          transactionType={"income"}
         />
       </StyledTransactionsListWrapper>
       {activeTransaction ? (
@@ -55,6 +56,7 @@ const Transactions = ({ wallets, selectedId, selectedWallet }) => {
           transactions={selectedWallet.outcomes}
           currency={selectedWallet.currency}
           categories={selectedWallet.outcomesCategories}
+          transactionType={"outcome"}
         />
       </StyledTransactionsListWrapper>
     </StyledTransactionsWrapper>

@@ -1,8 +1,18 @@
 import React from "react";
+import { connect } from "react-redux";
+import { deleteTransaction as deleteTransactionAction } from "../../actions";
 import Button from "../atoms/Button";
 import { StyledListItemTextWrapper, StyledTransparentButton } from "../styled";
 
-const TransactionListItem = ({ category, amount, id, currency, date = "" }) => {
+const TransactionListItem = ({
+  category,
+  amount,
+  id,
+  currency,
+  date = "",
+  deleteTransaction,
+  transactionType,
+}) => {
   const dateString = date.toString().split(" ").slice(0, 5).join(" ");
   return (
     <>
@@ -22,11 +32,17 @@ const TransactionListItem = ({ category, amount, id, currency, date = "" }) => {
         </StyledListItemTextWrapper>
         <StyledListItemTextWrapper>{dateString}</StyledListItemTextWrapper>
       </div>
-      <StyledTransparentButton width={10} textLight>
+      <StyledTransparentButton
+        onClick={() => deleteTransaction(id, transactionType)}
+        width={10}
+        textLight
+      >
         X
       </StyledTransparentButton>
     </>
   );
 };
-
-export default TransactionListItem;
+const mapDispatchToProps = (dispatch) => ({
+  deleteTransaction: (id, type) => dispatch(deleteTransactionAction(id, type)),
+});
+export default connect(null, mapDispatchToProps)(TransactionListItem);
