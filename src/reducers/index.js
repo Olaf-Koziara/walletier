@@ -186,11 +186,18 @@ const walletierReducer = (state = initialState, action) => {
           selectedWallet.incomes,
           payload.id,
         );
+
+        firestore.collection("wallet").doc(state.selectedWalletId).update({
+          incomes: selectedWallet.incomes,
+        });
       } else {
         selectedWallet.outcomes = deleteTransaction(
           selectedWallet.outcomes,
           payload.id,
         );
+        firestore.collection("wallet").doc(state.selectedWalletId).update({
+          outcomes: selectedWallet.outcomes,
+        });
       }
       return {
         ...state,
