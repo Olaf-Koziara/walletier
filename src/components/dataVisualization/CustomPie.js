@@ -24,7 +24,7 @@ const CustomPie = ({ data, children, total }) => {
       {children}
 
       <StyledVictryPie
-        colorScale={["#F0EFF4", "#3D2645", "#3F5EFB", "#FC2C77"]}
+        colorScale={["#3F5EFB", "#FC2C77"]}
         animate
         innerRadius={100}
         padding={50}

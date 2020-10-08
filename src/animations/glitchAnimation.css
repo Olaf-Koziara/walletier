@@ -69,6 +69,7 @@
   height: 100%;
   display: -webkit-box;
   display: flex;
+  flex-wrap: wrap;
   -webkit-box-pack: center;
   justify-content: center;
   -webkit-box-align: center;
