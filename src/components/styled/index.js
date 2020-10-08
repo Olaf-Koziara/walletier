@@ -20,6 +20,11 @@ export const StyledNav = styled.div`
 `;
 export const StyledNavStart = styled.div`
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  @media (min-width: 1000px) {
+    flex-direction: row;
+  }
 `;
 export const StyledNavMid = styled.div`
   text-align: center;
