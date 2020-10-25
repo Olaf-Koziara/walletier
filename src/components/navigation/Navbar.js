@@ -114,7 +114,11 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
             </StyledTransparentButton>
           </div>
 
-          <StyledNavLink to="/">
+          <StyledNavLink
+            to="/"
+            exact
+            isActive={(match) => (match ? true : false)}
+          >
             <StyledTransparentButton rounded>
               <img
                 style={{
@@ -125,7 +129,10 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
               />
             </StyledTransparentButton>
           </StyledNavLink>
-          <StyledNavLink to="/transactions">
+          <StyledNavLink
+            to="/transactions"
+            isActive={(match) => (match ? true : false)}
+          >
             <StyledTransparentButton rounded>
               <img height="72px" src={transactionIcon} alt="transations" />
             </StyledTransparentButton>
