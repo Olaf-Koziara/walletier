@@ -14,6 +14,7 @@ import { auth } from "../firebaseConfig/firebase";
 import { VictoryBar, VictoryChart } from "victory";
 import CustomMonthCategory from "../components/dataVisualization/CustomMonthCategory";
 import FilterMenu from "../components/transactions/FilterMenu";
+import { Link } from "react-router-dom";
 
 const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
   const [minDate, setMinDate] = useState(null);
@@ -143,6 +144,7 @@ const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
                     >
                       Incomes
                       <Button transparent={true}>
+                        <Link></Link>
                         <img
                           style={{
                             margin: "auto",
