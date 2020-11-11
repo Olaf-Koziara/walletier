@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import transactionIcon from "../../assets/icons/002-money-transfer.png";
 import Modal from "react-modal";
 import homeIcon from "../../assets/house.png";
+import "./Navbar.css";
 import "../../animations/glitchAnimation.css";
 
 import {
@@ -114,7 +115,7 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
             </StyledTransparentButton>
           </div>
 
-          <StyledNavLink to="/">
+          <StyledNavLink to="/" activeClassName="activeLink" exact>
             <StyledTransparentButton rounded>
               <img
                 style={{
@@ -125,7 +126,7 @@ const Navbar = ({ wallets, addWallet, selectedId, selectedWallet }) => {
               />
             </StyledTransparentButton>
           </StyledNavLink>
-          <StyledNavLink to="/transactions">
+          <StyledNavLink activeClassName="activeLink" to="/transactions">
             <StyledTransparentButton rounded>
               <img height="72px" src={transactionIcon} alt="transations" />
             </StyledTransparentButton>

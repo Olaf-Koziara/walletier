@@ -1,5 +1,5 @@
 import { Field, Form } from "formik";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
 import { Slice } from "victory";
 import spaceBackground from "../../assets/spaceBackground.jpg";
@@ -352,8 +352,13 @@ export const StyledTransparentButton = styled.button`
       color: whitesmoke;
     `}
 `;
-export const StyledNavLink = styled(Link)`
+export const StyledNavLink = styled(NavLink)`
   height: 125px;
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      background-color: black;
+    `}
 `;
 export const StyledLoopWrapper = styled.div`
   position: absolute;
