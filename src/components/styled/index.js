@@ -427,10 +427,10 @@ export const StyledCategoriesButtonWrapper = styled.div`
 `;
 export const StyledCategoriesMenuWrapper = styled.div`
   position: absolute;
-  width: 250px;
+  width: 200px;
   height: 500px;
   top: 0;
-  left: -250px;
+  left: -200px;
   background-color: #f0eff4;
   border-radius: 4px;
   box-shadow: 0 10px 30px rgba(#414856, 0.05);
