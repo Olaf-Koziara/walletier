@@ -33,7 +33,7 @@ const FilterMenu = ({
       case 0: {
         setMaxDate(null);
         setMinDate(null);
-        console.log("wykon");
+
         break;
       }
       case 1: {
