@@ -52,13 +52,11 @@ const TransactionsList = ({
               mountOnEnter={true}
               unmountOnExit={true}
             >
-              <StyledTransactionsListItem>
-                <TransactionListItem
-                  {...transaction}
-                  transactionType={transactionType}
-                  currency={currency}
-                />
-              </StyledTransactionsListItem>
+              <TransactionListItem
+                {...transaction}
+                transactionType={transactionType}
+                currency={currency}
+              />
             </CSSTransition>
           ) : null,
         )}

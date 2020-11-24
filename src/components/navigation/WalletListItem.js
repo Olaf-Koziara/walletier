@@ -33,14 +33,14 @@ const WalletListItem = ({
         <p>{balance}</p>
       </StyledWalletTextWrapper>
 
-      <Button transparent onClick={() => deleteWallet(id)}>
+      <Button transparent onClick={() => deleteWallet(index)}>
         <img style={{ width: "30px" }} src={deleteIcon} alt="delete" />
       </Button>
     </StyledWalletWrapper>
   );
 };
 const mapDispatchToProps = (dispatch) => ({
-  deleteWallet: (id) => dispatch(deleteWalletAction(id)),
+  deleteWallet: (index) => dispatch(deleteWalletAction(index)),
   selectWallet: (index) => dispatch(selectWalletAction(index)),
 });
 const mapStateToProps = (state) => ({

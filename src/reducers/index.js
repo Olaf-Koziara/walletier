@@ -30,7 +30,6 @@ const walletierReducer = (state = initialState, action) => {
     case "ADD_WALLET": {
       const wallets = [...state.wallets, payload];
       console.log(wallets);
-      firestore.collection("wallet").add(payload);
 
       return {
         ...state,
@@ -39,11 +38,16 @@ const walletierReducer = (state = initialState, action) => {
       };
     }
 
-    case "DELETE_WALLET":
+    case "DELETE_WALLET": {
+      firestore
+        .collection("wallet")
+        .doc(state.documentsWalletsId[payload])
+        .delete();
       return {
         ...state,
-        wallets: state.wallets.filter((wallet) => wallet.id !== payload),
+        wallets: state.wallets.filter((wallet, index) => index !== payload),
       };
+    }
 
     case "SELECT_WALLET": {
       console.log(payload);

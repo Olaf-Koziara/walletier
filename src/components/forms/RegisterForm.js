@@ -42,7 +42,11 @@ const RegisterForm = () => {
           value={userPassword}
           onChange={(e) => setUserPassword(e.target.value)}
         />
-        <StyledTransparentButton red type="submit">
+        <StyledTransparentButton
+          style={{ width: "100%", margin: "0", marginTop: "5px" }}
+          red
+          type="submit"
+        >
           Register
         </StyledTransparentButton>
       </StyledForm>

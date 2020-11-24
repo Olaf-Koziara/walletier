@@ -289,7 +289,7 @@ export const StyledTransparentButton = styled.button`
   cursor: pointer;
   font-size: 25px;
   margin: 15px;
-  height: 90px;
+  height: 80%;
   ${({ mxAuto }) =>
     mxAuto &&
     css`
@@ -404,7 +404,8 @@ export const StyledTransactionsListItem = styled.li`
   background-color: black;
   margin-top: 1rem;
   min-height: 3rem;
-  padding: 1rem 1rem 1rem 3rem;
+  height: 50px;
+  padding: 10px;
   position: relative;
   color: #f0eff4;
   text-align: start;

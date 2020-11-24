@@ -2,7 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { deleteTransaction as deleteTransactionAction } from "../../actions";
 import Button from "../atoms/Button";
-import { StyledListItemTextWrapper, StyledTransparentButton } from "../styled";
+import {
+  StyledListItemTextWrapper,
+  StyledTransactionsListItem,
+  StyledTransparentButton,
+} from "../styled";
 
 const TransactionListItem = ({
   category,
@@ -15,7 +19,7 @@ const TransactionListItem = ({
 }) => {
   const dateString = date.toString().split(" ").slice(0, 5).join(" ");
   return (
-    <>
+    <StyledTransactionsListItem>
       <div
         style={{
           display: "flex",
@@ -24,22 +28,17 @@ const TransactionListItem = ({
         }}
       >
         <StyledListItemTextWrapper>
-          Category:{category}
-        </StyledListItemTextWrapper>
-        <StyledListItemTextWrapper>
-          {" "}
-          Amount:{amount + " " + currency}
+          {`${category} ${amount} ${currency}`}
         </StyledListItemTextWrapper>
         <StyledListItemTextWrapper>{dateString}</StyledListItemTextWrapper>
       </div>
-      <StyledTransparentButton
+      <button
         onClick={() => deleteTransaction(id, transactionType)}
-        width={10}
-        textLight
+        className="text-white"
       >
         X
-      </StyledTransparentButton>
-    </>
+      </button>
+    </StyledTransactionsListItem>
   );
 };
 const mapDispatchToProps = (dispatch) => ({

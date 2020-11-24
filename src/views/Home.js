@@ -85,16 +85,6 @@ const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
                     style={{ margin: "30px", fontSize: "20px", color: "white" }}
                   >
                     Outcomes
-                    <Button transparent={true}>
-                      <img
-                        style={{
-                          margin: "auto",
-                          width: "50px",
-                        }}
-                        src={addIcon}
-                        alt="add"
-                      />
-                    </Button>
                   </div>
                 </StyledVictoryPieButtonWrapper>
               </CustomPie>
@@ -143,17 +133,6 @@ const Home = ({ wallets, selectedWalletId, selectedWallet }) => {
                       }}
                     >
                       Incomes
-                      <Button transparent={true}>
-                        <Link></Link>
-                        <img
-                          style={{
-                            margin: "auto",
-                            width: "50px",
-                          }}
-                          src={addIcon}
-                          alt="add"
-                        />
-                      </Button>
                     </div>
                   </StyledVictoryPieButtonWrapper>
                 </CustomPie>

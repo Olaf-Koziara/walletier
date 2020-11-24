@@ -9,6 +9,7 @@ import {
 } from "../../actions";
 import { connect } from "react-redux";
 import CurrencySelect from "./CurrencySelect";
+import { firestore } from "../../firebaseConfig/firebase";
 
 const AddWalletForm = ({ closeModal, addWallet, selectWallet, wallets }) => {
   const handelWalletAdd = (event) => {
@@ -22,6 +23,7 @@ const AddWalletForm = ({ closeModal, addWallet, selectWallet, wallets }) => {
       date: tempDate.toLocaleDateString(),
       currency: event.target.currency.value,
       id: id,
+      docId: "",
       incomes: [],
       outcomes: [],
       incomesTotal: 0,
@@ -32,9 +34,20 @@ const AddWalletForm = ({ closeModal, addWallet, selectWallet, wallets }) => {
       incomesSummedUpByCategory: [],
       uid: localStorage.getItem("currentUser"),
     };
-
     addWallet(tempWallet);
-    selectWallet(id);
+    firestore
+      .collection("wallet")
+      .add(tempWallet)
+      .then((docRef) => {
+        console.log(docRef.id);
+        firestore
+          .collection("wallet")
+          .doc(docRef.id)
+          .update({ docId: docRef.id });
+      })
+      .then(() => {
+        selectWallet(0);
+      });
   };
   return (
     <Formik initialValues={{ name: "", balance: 0, currency: "" }}>

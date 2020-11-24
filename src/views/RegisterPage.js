@@ -4,7 +4,7 @@ import { StyledFormWrapper } from "../components/styled";
 
 const RegisterPage = () => {
   return (
-    <StyledFormWrapper>
+    <StyledFormWrapper mxAuto>
       <RegisterForm />
     </StyledFormWrapper>
   );
