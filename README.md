@@ -1,7 +1,7 @@
 ## Walletier
 
 Walletier is budget management web app created with react, redux and firebase.
-Netlify: https://musing-curran-518f71.netlify.app/
+Netlify: https://walletier.netlify.app/
 
 ## Table of contents
 
