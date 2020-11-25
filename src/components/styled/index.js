@@ -287,9 +287,9 @@ export const StyledTransparentButton = styled.button`
   background-color: transparent;
   width: ${({ width }) => (width ? width + "%" : "90px")};
   cursor: pointer;
-  font-size: 25px;
+  font-size: 23px;
   margin: 15px;
-  height: 80%;
+  height: 90%;
   ${({ mxAuto }) =>
     mxAuto &&
     css`
